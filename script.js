@@ -1,274 +1,398 @@
-:root {
-    --bg-color: #f5f7fa;
-    --selected-bg-color: #007bff;
-    --selected-text-color: #ffffff;
-    --container-bg: #ffffff;
-    --text-color: #333;
-    --heading-color: #007bff;
-    --border-color: #ddd;
-    --hover-border-color: #007bff;
-    --label-color: #555;
-    --slider-bg: #ddd;
-    --slider-thumb: #007bff;
-    --slider-thumb-hover: #0056b3;
-    --button-bg: #007bff;
-    --button-color: white;
-    --button-hover: #0056b3;
-    --progress-bg: #f5f7fa;
-    --progress-fill: #007bff;
-    --input-border: #ccc;
-    --input-bg: #ffffff;
-    --copy-button-bg: #28a745;
-    --copy-button-hover: #218838;
-    --footer-color: #777;
-    --copy-status-color: green;
-    --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+function toggleTheme() {
+    const html = document.documentElement;
+    const themeIcon = document.getElementById('themeIcon');
+    
+    if (html.getAttribute('data-theme') === 'dark') {
+        html.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+    } else {
+        html.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+    }
 }
 
-[data-theme="dark"] {
-    --bg-color: #1a1a1a;
-    --selected-bg-color: #2c3e50;
-    --selected-text-color: #ecf0f1;
-    --container-bg: #2a2a2a;
-    --text-color: #e0e0e0;
-    --heading-color: #4da3ff;
-    --border-color: #444;
-    --hover-border-color: #4da3ff;
-    --label-color: #bbb;
-    --slider-bg: #444;
-    --slider-thumb: #4da3ff;
-    --slider-thumb-hover: #3a7abd;
-    --button-bg: #4da3ff;
-    --button-color: #1a1a1a;
-    --button-hover: #3a7abd;
-    --progress-bg: #444;
-    --progress-fill: #4da3ff;
-    --input-border: #444;
-    --input-bg: #333;
-    --copy-button-bg: #2ecc71;
-    --copy-button-hover: #27ae60;
-    --footer-color: #888;
-    --copy-status-color: #2ecc71;
-    --box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+function setTheme() {
+    const html = document.documentElement;
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        html.setAttribute('data-theme', 'dark');
+    } else if (savedTheme === 'light') {
+        html.removeAttribute('data-theme');
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        html.setAttribute('data-theme', 'dark');
+    }
 }
 
-/* Ensure body scrolls */
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; /* Align content to the top */
-    min-height: 100vh; /* Ensure the page height is always at least 100% of the viewport */
-    margin: 0;
-    overflow-y: auto; /* Allow vertical scrolling */
-}
+// Call setTheme on page load
+// Call setTheme on page load
+document.addEventListener('DOMContentLoaded', () => {
+    setTheme();
+    const themeIcon = document.getElementById('themeIcon');
+    if (document.documentElement.getAttribute('data-theme') === 'dark') {
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+    }
+});
 
-.container {
-    background: var(--container-bg);
-    border-radius: 10px;
-    box-shadow: var(--box-shadow);
-    padding: 30px;
-    max-width: 500px;
-    width: 100%;
-    text-align: center;
-}
+// Listen for changes in system color scheme
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setTheme);
 
-h1 {
-    margin-bottom: 25px;
-    font-size: 24px;
-    color: var(--heading-color);
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const games = {
+        1: {
+            name: 'Riding Extreme 3D',
+            appToken: 'd28721be-fd2d-4b45-869e-9f253b554e50',
+            promoId: '43e35910-c168-4634-ad4f-52fd764a843f',
+            timing: 30000, // 30 seconds
+            attempts: 25,
+        },
+        2: {
+            name: 'Chain Cube 2048',
+            appToken: 'd1690a07-3780-4068-810f-9b5bbf2931b2',
+            promoId: 'b4170868-cef0-424f-8eb9-be0622e8e8e3',
+            timing: 30000, // 30 seconds
+            attempts: 20,
+        },
+        3: {
+            name: 'My Clone Army',
+            appToken: '74ee0b5b-775e-4bee-974f-63e7f4d5bacb',
+            promoId: 'fe693b26-b342-4159-8808-15e3ff7f8767',
+            timing: 180000, // 180 seconds
+            attempts: 30,
+        },
+        4: {
+            name: 'Train Miner',
+            appToken: '82647f43-3f87-402d-88dd-09a90025313f',
+            promoId: 'c4480ac7-e178-4973-8061-9ed5b2e17954',
+            timing: 30000, // 30 seconds
+            attempts: 15,
+        },
+        5: {
+            name: 'Merge Away',
+            appToken: '8d1cc2ad-e097-4b86-90ef-7a27e19fb833',
+            promoId: 'dc128d28-c45b-411c-98ff-ac7726fbaea4',
+            timing: 30000, // 30 seconds
+            attempts: 25,
+        },
+        6: {
+            name: 'Twerk Race 3D',
+            appToken: '61308365-9d16-4040-8bb0-2f4a4c69074c',
+            promoId: '61308365-9d16-4040-8bb0-2f4a4c69074c',
+            timing: 30000, // 30 seconds
+            attempts: 20,
+        },
+        7: {
+            name: 'Polysphere',
+            appToken: '2aaf5aee-2cbc-47ec-8a3f-0962cc14bc71',
+            promoId: '2aaf5aee-2cbc-47ec-8a3f-0962cc14bc71',
+            timing: 20000, // 20 seconds
+            attempts: 20,
+        },
+        8: {
+            name: 'Mow and Trim',
+            appToken: 'ef319a80-949a-492e-8ee0-424fb5fc20a6',
+            promoId: 'ef319a80-949a-492e-8ee0-424fb5fc20a6',
+            timing: 20000, // 20 seconds
+            attempts: 20,
+        },
+        9: {
+            name: 'Mud Racing',
+            appToken: '8814a785-97fb-4177-9193-ca4180ff9da8',
+            promoId: '8814a785-97fb-4177-9193-ca4180ff9da8',
+            timing: 20000, // 20 seconds
+            attempts: 20,
+        },
+        10: {
+            name: 'Tile Trio',
+            appToken: 'e68b39d2-4880-4a31-b3aa-0393e7df10c7',
+            promoId: 'e68b39d2-4880-4a31-b3aa-0393e7df10c7',
+            timing: 20000, // 20 seconds
+            attempts: 20,
+        },
+        11: {
+            name: 'Zoopolis',
+            appToken: 'b2436c89-e0aa-4aed-8046-9b0515e1c46b',
+            promoId: 'b2436c89-e0aa-4aed-8046-9b0515e1c46b',
+            timing: 20000, // 20 seconds
+            attempts: 20,
+        },
+        12: {
+            name: 'Fluff Crusade',
+            appToken: '112887b0-a8af-4eb2-ac63-d82df78283d9',
+            promoId: '112887b0-a8af-4eb2-ac63-d82df78283d9',
+            timing: 20000, // 40 seconds
+            attempts: 30,
+        },
+        13: {
+            name: 'Stone Age',
+            appToken: '04ebd6de-69b7-43d1-9c4b-04a6ca3305af',
+            promoId: '04ebd6de-69b7-43d1-9c4b-04a6ca3305af',
+            timing: 20000, // 40 seconds
+            attempts: 30,
+        }
+    };
 
-/* Add a max height and enable scrolling for the game options */
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-bottom: 20px;
-    max-height: 600px; /* Adjust this height based on your layout needs */
-    overflow-y: auto;
-    padding: 10px 10px 10px 10px
-}
+    const gameOptions = document.querySelectorAll('.game-option');
+    const keyCountGroup = document.getElementById('keyCountGroup');
+    const keyRange = document.getElementById('keyRange');
+    const keyValue = document.getElementById('keyValue');
+    const startBtn = document.getElementById('startBtn');
+    const keyCountLabel = document.getElementById('keyCountLabel');
+    const progressContainer = document.getElementById('progressContainer');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    const progressLog = document.getElementById('progressLog');
+    const keyContainer = document.getElementById('keyContainer');
+    const keysList = document.getElementById('keysList');
+    const copyAllBtn = document.getElementById('copyAllBtn');
+    const generatedKeysTitle = document.getElementById('generatedKeysTitle');
+    const copyStatus = document.getElementById('copyStatus');
+    const generateMoreBtn = document.getElementById('generateMoreBtn');
+    const sourceCode = document.getElementById('sourceCode');
 
-.game-option {
-    border: 2px solid var(--border-color);
-    border-radius: 10px;
-    padding: 10px;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.3s, border-color 0.3s, background-color 0.3s, color 0.3s;
-    background-color: var(--container-bg);
-    color: var(--text-color);
-}
+    let selectedGame = null;
 
-.game-option:hover {
-    border-color: var(--hover-border-color);
-    transform: scale(1.03);
-}
+    sourceCode.addEventListener('click', () => {
+        window.open('https://t.me/Nimleecher', '_blank');
+    });
 
-/* Style for selected game option */
-.game-option.selected {
-    transform: scale(1.05); /* Slight scale */
-    border-color: var(--selected-bg-color);
-    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); /* Gradient background */
-    color: var(--selected-text-color) !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-    transition: all 0.3s ease-in-out; /* Smooth transition */
-}
+    gameOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            gameOptions.forEach(opt => opt.classList.remove('selected'));
+            option.classList.add('selected');
+            selectedGame = option.dataset.game;
+    
+            keyCountGroup.classList.remove('hidden');
+            startBtn.classList.remove('hidden');
+    
+            // Smooth scroll to the key count group
+            keyCountGroup.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+    });
 
-.game-option img {
-    width: 100%;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
+    keyRange.addEventListener('input', () => {
+        keyValue.innerText = keyRange.value;
+    });
 
-.game-option p {
-    font-size: 16px; /* Increase font size */
-    font-weight: 600; /* Make it bold */
-}
+    startBtn.addEventListener('click', async () => {
+        const keyCount = parseInt(keyRange.value);
+        if (!selectedGame) {
+            alert('Please select a game first.');
+            return;
+        }
 
-/* Optional hover effect on game options */
-.game-option:hover {
-    transform: scale(1.05);
-    border-color: var(--hover-border-color);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Slight shadow on hover */
-}
+        const gameChoice = parseInt(selectedGame);
+        const game = games[gameChoice];
 
-.game-option.selected p {
-    color: white; /* Ensure text is visible on the new background */
-}
+        // Hide the form sections
+        document.querySelector('.grid-container').style.display = 'none';
+        keyCountGroup.style.display = 'none';
 
-.form-group {
-    margin-bottom: 20px;
-    text-align: left;
-}
+        keyCountLabel.innerText = `Number of keys: ${keyCount}`;
 
-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: var(--label-color);
-}
+        progressBar.style.width = '0%';
+        progressText.innerText = '0%';
+        progressLog.innerText = 'Starting...';
+        progressContainer.classList.remove('hidden');
+        keyContainer.classList.add('hidden');
+        generatedKeysTitle.classList.add('hidden');
+        keysList.innerHTML = '';
+        copyAllBtn.classList.add('hidden');
+        startBtn.classList.add('hidden');
+        startBtn.disabled = true;
 
-.key-slider {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+        let progress = 0;
+        const updateProgress = (increment, message) => {
+            progress += increment;
+            progressBar.style.width = `${progress}%`;
+            progressText.innerText = `${progress}%`;
+            progressLog.innerText = message;
+        };
 
-.key-slider input[type="range"] {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 8px;
-    border-radius: 5px;
-    background: var(--slider-bg);
-    outline: none;
-    transition: background 0.3s;
-}
+        const generateKeyProcess = async () => {
+            const clientId = generateClientId();
+            let clientToken;
+            try {
+                clientToken = await login(clientId, game.appToken);
+            } catch (error) {
+                alert(`Failed to login: ${error.message}`);
+                startBtn.disabled = false;
+                return null;
+            }
 
-.key-slider input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--slider-thumb);
-    cursor: pointer;
-    transition: background 0.3s;
-}
+            for (let i = 0; i < game.attempts; i++) {
+                const hasCode = await emulateProgress(clientToken, game.promoId);
+                updateProgress((100 / game.attempts) / keyCount, `Emulating progress ${i + 1}/${game.attempts}...`);
+                if (hasCode) {
+                    break;
+                }
+                await sleep(game.timing);  // Sleep after each attempt to wait before the next event registration
+            }
 
-.key-slider input[type="range"]:hover::-webkit-slider-thumb {
-    background: var(--slider-thumb-hover);
-}
+            try {
+                const key = await generateKey(clientToken, game.promoId);
+                updateProgress(100 / keyCount, 'Generating key...');
+                return key;
+            } catch (error) {
+                alert(`Failed to generate key: ${error.message}`);
+                return null;
+            }
+        };
 
-#keyValue {
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--heading-color);
-}
+        const keys = await Promise.all(Array.from({ length: keyCount }, generateKeyProcess));
 
-button {
-    background-color: var(--button-bg);
-    color: var(--button-color);
-    border: none;
-    padding: 12px 20px;
-    font-size: 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 20px;
-}
+        if (keys.length > 1) {
+            keysList.innerHTML = keys.filter(key => key).map(key =>
+                `<div class="key-item">
+                    <input type="text" value="${key}" readonly>
+                    <button class="copyKeyBtn" data-key="${key}">Copy Key</button>
+                </div>`
+            ).join('');
+            copyAllBtn.classList.remove('hidden');
+        } else if (keys.length === 1) {
+            keysList.innerHTML =
+                `<div class="key-item">
+                    <input type="text" value="${keys[0]}" readonly>
+                    <button class="copyKeyBtn" data-key="${keys[0]}">Copy Key</button>
+                </div>`;
+        }
 
-button:hover {
-    background-color: var(--button-hover);
-}
+        keyContainer.classList.remove('hidden');
+        generatedKeysTitle.classList.remove('hidden');
 
-.hidden {
-    display: none;
-}
+        document.querySelectorAll('.copyKeyBtn').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const key = event.target.getAttribute('data-key');
+                copyToClipboard(key);
+            });
+        });
 
-.progress-bar {
-    background-color: var(--progress-bg);
-    border-radius: 8px;
-    overflow: hidden;
-    margin-top: 25px;
-    height: 35px;
-    position: relative;
-}
+        copyAllBtn.addEventListener('click', () => {
+            const keysText = keys.filter(key => key).join('\n');
+            copyToClipboard(keysText);
+        });
 
-.progress-bar div {
-    height: 100%;
-    background-color: var(--progress-fill);
-    width: 0;
-    transition: width 0.5s;
-}
+        progressBar.style.width = '100%';
+        progressText.innerText = '100%';
+        progressLog.innerText = 'Complete';
 
-#progressText {
-    margin-top: 15px;
-    font-weight: 600;
-}
+        startBtn.classList.remove('hidden');
+        keyCountGroup.classList.remove('hidden');
+        document.querySelector('.grid-container').style.display = 'grid';
+        startBtn.disabled = false;
+    });
 
-.key-item {
-    display: flex;
-    align-items: center;
-    margin-top: 15px;
-}
+    const generateClientId = () => {
+        const timestamp = Date.now();
+        const randomNumbers = Array.from({ length: 19 }, () => Math.floor(Math.random() * 10)).join('');
+        return `${timestamp}-${randomNumbers}`;
+    };
 
-.key-item input {
-    flex: 1;
-    padding: 12px;
-    font-size: 16px;
-    border: 1px solid var(--input-border);
-    border-radius: 8px;
-    margin-right: 12px;
-    background-color: var(--input-bg);
-    color: var(--text-color);
-}
+    const login = async (clientId, appToken) => {
+        const response = await fetch('https://api.gamepromo.io/promo/login-client', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                appToken,
+                clientId,
+                clientOrigin: 'deviceid'
+            })
+        });
 
-.copyKeyBtn {
-    background-color: var(--copy-button-bg);
-    border: none;
-    padding: 12px 20px;
-    color: var(--button-color);
-    font-size: 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
+        if (!response.ok) {
+            throw new Error('Failed to login');
+        }
 
-.copyKeyBtn:hover {
-    background-color: var(--copy-button-hover);
-}
+        const data = await response.json();
+        return data.clientToken;
+    };
 
-.footer {
-    margin-top: 25px;
-    font-size: 14px;
-    color: var(--footer-color);
-}
+    const emulateProgress = async (clientToken, promoId) => {
+        const response = await fetch('https://api.gamepromo.io/promo/register-event', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${clientToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                promoId,
+                eventId: generateUUID(),
+                eventOrigin: 'undefined'
+            })
+        });
 
-#copyStatus {
-    margin-top: 15px;
-    color: var(--copy-status-color);
-}
+        if (!response.ok) {
+            return false;
+        }
+
+        const data = await response.json();
+        return data.hasCode;
+    };
+
+    const generateKey = async (clientToken, promoId) => {
+        const response = await fetch('https://api.gamepromo.io/promo/create-code', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${clientToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                promoId
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to generate key');
+        }
+
+        const data = await response.json();
+        return data.promoCode;
+    };
+
+    const generateUUID = () => {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    };
+
+    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+    const copyToClipboard = (text) => {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(() => {
+                copyStatus.classList.remove('hidden');
+                setTimeout(() => copyStatus.classList.add('hidden'), 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        } else {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.top = '0';
+            textArea.style.left = '0';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    copyStatus.classList.remove('hidden');
+                    setTimeout(() => copyStatus.classList.add('hidden'), 2000);
+                }
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+            }
+
+            document.body.removeChild(textArea);
+        }
+    };
+});
